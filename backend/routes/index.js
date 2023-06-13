@@ -1,5 +1,6 @@
-const { Router } = require('express');
-const controllers = require('../controllers');
-const router = Router();
+const express = require('express');
+const router = express.Router();
+
 router.get('/', (req, res) => res.send('Welcome  to todo Application'))
-module.exports = router
+//router.post('/register-users', controllers.createUser)
+module.exports = router;

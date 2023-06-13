@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Task, { foreignKey: 'userId' });
+      User.hasMany(models.Task, { foreignKey: 'userId' ,onDelete:'CASCADE',hooks:true});
     }
   }
   User.init({
@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lastName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    email: {
       type: DataTypes.STRING,
       allowNull: false
     },

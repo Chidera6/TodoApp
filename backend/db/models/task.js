@@ -1,5 +1,5 @@
 'use strict';
-import {User} from '.user'; 
+
 const {Model} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 
       },
       updated_at: {
-          type:DataTypes.Date,
+          type:DataTypes.DATE,
           allowNull:false,
           defaultValue: DataTypes.NOW,
 

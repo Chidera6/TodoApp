@@ -9,6 +9,8 @@
   "author": "Chidera Stella Onumajuru",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "sequelize": "^6.32.0",
     "sequelize-cli": "^6.6.1",

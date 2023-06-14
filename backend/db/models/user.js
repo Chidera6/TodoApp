@@ -26,14 +26,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    password: {
+    hashedPassword: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    confirm_password: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
+    
     created_at: {
         type: DataTypes.DATE,
         allowNull: false,

@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(routes);
+/*
 const { ValidationError } = require('sequelize');
 // Error handling middleware
 
@@ -41,4 +42,5 @@ app.use((err, _req, res, _next) => {
     errors: err.errors,
   });
 });
+*/
 module.exports = app;

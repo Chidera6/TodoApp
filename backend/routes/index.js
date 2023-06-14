@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => res.send('Welcome  to todo Application'))
-//router.post('/register-users', controllers.createUser)
+router.get('/', (_req, res) => res.send('Welcome to the todo Application'));
+
 module.exports = router;

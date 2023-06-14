@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const { port } = require('../config');
 
-const app = require('../app');
+const app = require('../index');
 const db = require('../db/models');
 
 db.sequelize.authenticate().then(() => {

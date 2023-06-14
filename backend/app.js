@@ -11,10 +11,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use(routes);
-
+const { ValidationError } = require('sequelize');
 // Error handling middleware
 
-/*
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
@@ -24,13 +23,14 @@ app.use((_req, _res, next) => {
 });
 
 app.use((err, _req, _res, next) => {
-  // Handle Sequelize validation errors
-  if (err.name === 'SequelizeValidationError') {
+  // check if error is a Sequelize error:
+  if (err instanceof ValidationError) {
     err.errors = err.errors.map((e) => e.message);
     err.title = 'Validation error';
   }
   next(err);
 });
+
 
 app.use((err, _req, res, _next) => {
   res.status(err.status || 500);
@@ -41,5 +41,4 @@ app.use((err, _req, res, _next) => {
     errors: err.errors,
   });
 });
-*/
 module.exports = app;

@@ -1,33 +1,22 @@
 const express = require('express');
 require('express-async-errors');
-require('dotenv').config();
 const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
-const db = require('./db/models');
 const app = express();
-const { port } = require('./config');
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
 const corsOptions = {
   origin: '',
 };
-
 app.use(cors(corsOptions));
-db.sequelize.authenticate().then(() => {
-  console.log('Database connection success! Sequelize is ready to use...');
-  app.listen(port, () => console.log(`Listening on port ${port}...`));
-})
-.catch((err) => {
-  console.log('Database connection failure.');
-  console.error(err);
-});
 app.use(routes);
 
 const { ValidationError } = require('sequelize');
 // Error handling middleware
+
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";

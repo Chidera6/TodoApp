@@ -16,6 +16,14 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+db.sequelize.authenticate().then(() => {
+  console.log('Database connection success! Sequelize is ready to use...');
+  app.listen(port, () => console.log(`Listening on port ${port}...`));
+})
+.catch((err) => {
+  console.log('Database connection failure.');
+  console.error(err);
+});
 app.use(routes);
 
 const { ValidationError } = require('sequelize');
@@ -47,12 +55,5 @@ app.use((err, _req, res, _next) => {
     errors: err.errors,
   });
 });
-db.sequelize.authenticate().then(() => {
-  console.log('Database connection success! Sequelize is ready to use...');
-  app.listen(port, () => console.log(`Listening on port ${port}...`));
-})
-.catch((err) => {
-  console.log('Database connection failure.');
-  console.error(err);
-});
+
 module.exports = app;

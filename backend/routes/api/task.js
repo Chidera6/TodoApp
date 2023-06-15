@@ -47,5 +47,40 @@ router.post('/create', requireAuth, async (req, res) => {
       res.status(500).json({ error: 'Server Error' });
     }
   });
+
+
+  
+  router.put('/:taskId', requireAuth, async (req, res) => {
+    const { taskId } = req.params;
+    const { title, description, completed } = req.body;
+    const userId = req.user.id;
+  
+    try {
+  
+      const task = await Task.findOne({
+        where: {
+          id: taskId,
+          userId: userId,
+        },
+      });
+  
+      if (!task) {
+        return res.status(404).json({ error: 'Task not found' });
+      }
+  
+    
+      task.title = title || task.title;
+      task.description = description || task.description;
+      task.completed = completed || task.completed;
+  
+      await task.save();
+  
+      res.json({ message: 'Task updated successfully' });
+    } catch (error) {
+      console.error('Error updating task:', error);
+      res.status(500).json({ error: 'Server Error' });
+    }
+  });
+  
   
 module.exports = router;

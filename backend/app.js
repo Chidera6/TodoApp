@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const routes = require('./routes');
 const db = require('./db/models');
 const app = express();
-const { port } = require('./config/index');
+const { port } = require('./config');
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());

@@ -45,21 +45,6 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Task, { foreignKey: 'userId' ,onDelete:'CASCADE',hooks:true});
     }
 
-    static async login({ credential, password }) {
-      const { Op } = require('sequelize');
-      const user = await User.scope('loginUser').findOne({
-        where: {
-          [Op.or]: {
-            username: credential,
-            email: credential
-          }
-        }
-      });
-      if (user && user.validatePassword(password)) {
-        return await User.scope('currentUser').findByPk(user.id);
-      }
-    }
-
   }
   
   User.init({
@@ -95,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
   {
       sequelize,
       modelName: "User",
-      tableName: 'user',
+      tableName: 'users',
       defaultScope: {
         attributes: {
           exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]

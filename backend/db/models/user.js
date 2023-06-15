@@ -37,13 +37,13 @@ module.exports = (sequelize, DataTypes) => {
     static async signup({ username, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({username,email,hashedPassword});
-      //console.log(user.Query); 
       return await User.scope('currentUser').findByPk(user.id);
     }
     static associate(models) {
       // define association here
       User.hasMany(models.Task, { foreignKey: 'userId' ,onDelete:'CASCADE',hooks:true});
     }
+ 
 
   }
   

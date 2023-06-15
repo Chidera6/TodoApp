@@ -1,17 +1,18 @@
-import React from 'react'
-import Login from './login'
-import Signup from './signup'
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import React from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Signup from "./components/signup";
+import Login from "./components/login";
+import ToDoList from "./components/todolist";
 
-function App(){
+function App() {
   return (
-    <BrowserRouter>
     <Routes>
-      <Route path='/' element={<Login />}></Route>
-      <Route path='/signup' element={<Signup />}></Route>
+      <Route path="/signup" exact element={<Signup />} />
+      <Route path="/login" exact element={<Login />} />
+      <Route path="/todos" exact element={<ToDoList />} />
+      <Route path="/" element={<Navigate replace to="/login" />} />
     </Routes>
-    </BrowserRouter>
-
-  )
+  );
 }
+
 export default App;

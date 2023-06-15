@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ToDo from "./ToDo";
-import { getAllToDo, addToDo, updateToDo, deleteToDo } from "../utils/HandleApi";
+import { getAllToDo, addToDo, updateToDo, deleteToDo } from "../utils/handleapis";
 
 const ToDoList = () => {
   const [toDo, setToDo] = useState([]);

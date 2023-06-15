@@ -111,7 +111,7 @@ router.get('/', requireAuth, async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // Find all tasks for the user
+  
     const tasks = await Task.findAll({
       where: {
         userId: userId,

@@ -82,5 +82,29 @@ router.post('/create', requireAuth, async (req, res) => {
     }
   });
   
+ 
+  router.get('/:taskId', requireAuth, async (req, res) => {
+    const { taskId } = req.params;
+    const userId = req.user.id;
+  
+    try {
+    
+      const task = await Task.findOne({
+        where: {
+          id: taskId,
+          userId: userId,
+        },
+      });
+  
+      if (!task) {
+        return res.status(404).json({ error: 'Task not found' });
+      }
+  
+      res.json(task);
+    } catch (error) {
+      console.error('Error retrieving task:', error);
+      res.status(500).json({ error: 'Server Error' });
+    }
+  });
   
 module.exports = router;

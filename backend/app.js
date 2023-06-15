@@ -8,8 +8,11 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: '',
+};
 
+app.use(cors(corsOptions));
 app.use(routes);
 
 const { ValidationError } = require('sequelize');

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
-    "start":  " ./bin/www",
+    "start": "node ./bin/www",
     "start:development": "",
     "start:production": "node ./bin/www"
   },

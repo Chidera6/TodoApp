@@ -1,13 +1,12 @@
 const express = require('express');
 require('express-async-errors');
-const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
 const { environment } = require('./config');
 const { ValidationError } = require('sequelize');
 const app = express();
-app.use(morgan('dev'));
+const db = require('./db/models');
 app.use(cookieParser());
 app.use(express.json());
 const corsOptions = {
@@ -16,6 +15,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(routes);
 
+db.sequelize.authenticate().then(() => {
+  console.log('Database connection success! Sequelize is ready to use...');
+  app.listen(port, () => console.log(`Listening on port ${port}...`));
+})
+.catch((err) => {
+  console.log('Database connection failure.');
+  console.error(err);
+});
+console.log('Current environment:', environment);
 const isProduction = environment === 'production';
 // Error handling middleware
 

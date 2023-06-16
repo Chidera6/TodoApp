@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "sequelize": "sequelize",
     "sequelize-cli": "sequelize-cli",
-    "start": "per-env",
-    "start:development": "nodemon -r dotenv/config ./bin/www",
+    "start":  " ./bin/www",
+    "start:development": "",
     "start:production": "node ./bin/www"
   },
   "keywords": [],
@@ -27,8 +27,7 @@
     "per-env": "^1.0.2",
     "pg": "^8.11.0",
     "sequelize": "^6.32.0",
-    "sequelize-cli": "^6.6.1",
-    "todo_app": "file:.."
+    "sequelize-cli": "^6.6.1"
   },
   "devDependencies": {
     "dotenv-cli": "^7.2.1",

@@ -4,6 +4,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const routes = require('./routes');
+const { environment } = require('./config');
+const { ValidationError } = require('sequelize');
 const app = express();
 app.use(morgan('dev'));
 app.use(cookieParser());
@@ -14,7 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(routes);
 
-const { ValidationError } = require('sequelize');
+const isProduction = environment === 'production';
 // Error handling middleware
 
 app.use((_req, _res, next) => {

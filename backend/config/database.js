@@ -31,7 +31,7 @@ module.exports = {
 },
   
 production: {
-    url: 'config.url',
+    url: config.url,
     dialect: 'postgres',
     seederStorage: 'sequelize',
     dialectOptions: {

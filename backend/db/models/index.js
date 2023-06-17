@@ -17,7 +17,6 @@ if (config.url) {
 }
 */
 const sequelize = new Sequelize(process.env[config.url],config);
-
 fs
   .readdirSync(__dirname)
   .filter(file => {

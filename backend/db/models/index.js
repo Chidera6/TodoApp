@@ -16,7 +16,7 @@ if (config.url) {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 */
-const sequelize = new Sequelize(process.env[config.url],config);
+const sequelize = new Sequelize(`${config.url}`,config);
 
 fs
   .readdirSync(__dirname)

@@ -29,7 +29,7 @@ module.exports = {
 },
   
 production: {
-    url: 'DATABASE_URL',
+    url: 'postgres://production_o3f6_user:OfPwNIfFpTRrxHy48tlLmJaLOrI0Xam7@dpg-cgs7mh9jvhtj5p6qa190-a/production_o3f6',
     dialect: 'postgres',
     seederStorage: 'sequelize',
     dialectOptions: {

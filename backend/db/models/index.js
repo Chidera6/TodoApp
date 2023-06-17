@@ -8,7 +8,13 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config/database.js')[env];
 const db = {};
 
-const sequelize = new Sequelize(`${config.url}?sslmode=no-verify`,config);
+let sequelize;
+if (config.url) {
+  sequelize = new Sequelize(process.env[config.url], config);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
+//const sequelize = new Sequelize(`${config.url}`,config);
 
 fs
   .readdirSync(__dirname)

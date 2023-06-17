@@ -31,12 +31,12 @@ module.exports = {
 },
   
 production: {
-    url: config.url,
+    use_env_variable: config.url,
     dialect: 'postgres',
     seederStorage: 'sequelize',
     dialectOptions: {
       ssl: {
-        require: false,
+        require: true,
         rejectUnauthorized: false
       }
     }

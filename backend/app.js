@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app = express();
+require('dotenv').config();
 const db = require('./db/models');
 const { port } = require('./config');
 app.use(cookieParser());

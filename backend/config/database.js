@@ -15,7 +15,7 @@ module.exports = {
 
   */
 
-  const database = require('./index');
+  const config = require('./index');
   module.exports = {
   development: {
     url:config.url,

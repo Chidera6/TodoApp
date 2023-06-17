@@ -1,4 +1,4 @@
-const config = require('./index');
+
 /*
 module.exports = {
 
@@ -14,13 +14,15 @@ module.exports = {
 
 
   */
+
+  const config = require('./index');
   module.exports = {
   development: {
-    url:"postgres://production_o3f6_user:OfPwNIfFpTRrxHy48tlLmJaLOrI0Xam7@dpg-cgs7mh9jvhtj5p6qa190-a.ohio-postgres.render.com/production_o3f6",
+    url:config.url,
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
-        require: false,
+        require: true,
         rejectUnauthorized: false
       },
     seederStorage: 'sequelize'
@@ -29,7 +31,7 @@ module.exports = {
 },
   
 production: {
-    url: 'postgres://production_o3f6_user:OfPwNIfFpTRrxHy48tlLmJaLOrI0Xam7@dpg-cgs7mh9jvhtj5p6qa190-a/production_o3f6',
+    url: 'config.url',
     dialect: 'postgres',
     seederStorage: 'sequelize',
     dialectOptions: {

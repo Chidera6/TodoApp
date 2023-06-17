@@ -17,9 +17,6 @@ router.post('/create', requireAuth, async (req, res) => {
     }
   });
   
-  
-  
- 
   router.delete('/:taskId', requireAuth, async (req, res) => {
     const { taskId } = req.params;
     const userId = req.user.id;

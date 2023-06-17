@@ -5,11 +5,14 @@ const app = express();
 require('dotenv').config();
 const db = require('./db/models');
 const { port } = require('./config');
+const { environment } = require('./config');
+
 app.use(cookieParser());
 app.use(express.json());
 const routes = require('./routes');
 app.use(routes);
-
+const isProduction = environment === 'production';
+//console.log(environment);
 db.sequelize.authenticate().then(() => {
   console.log('Database connection success! Sequelize is ready to use...');
   app.listen(port, () => console.log(`Listening on port ${port}...`));

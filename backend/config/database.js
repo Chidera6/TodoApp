@@ -36,7 +36,7 @@ production: {
     seederStorage: 'sequelize',
     dialectOptions: {
       ssl: {
-        require: false,
+        require: true,
         rejectUnauthorized: false
       }
     }

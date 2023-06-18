@@ -18,12 +18,19 @@ if (config.use) {
 }
 */
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(`${config.url}`,config);
+//if (config.use_env_variable) {
+//  sequelize = new Sequelize(process.env[config.url], config);
+//  console.log(sequelize);
+
+//} else {
+sequelize = new Sequelize(`${config.use_env_variable}`,config);
+//};
+
+
+// {
+  //
   //sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+//}
 
 //const sequelize = new Sequelize(`${config.url}`);
 //console.log(sequelize);

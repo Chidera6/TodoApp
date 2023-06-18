@@ -18,7 +18,7 @@ module.exports = {
   const config = require('./index');
   module.exports = {
   development: {
-    url:config.url,
+    use_env_variable:config.url,
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
@@ -33,12 +33,18 @@ module.exports = {
 production: {
     use_env_variable: config.url,
     dialect: 'postgres',
-    seederStorage: 'sequelize',
     dialectOptions: {
       ssl: {
         require: true,
         rejectUnauthorized: false
-      }
+      },
+    pool: {
+         max: 10,
+         min: 2,
+         acquire: 30000,
+         idle: 10000,
+      },
+      seederStorage: 'sequelize',
     }
   }
 };

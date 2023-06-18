@@ -31,7 +31,7 @@ module.exports = {
 },
   
 production: {
-    use_env_variable: config.url,
+    use_env_variable:"postgres://production_o3f6_user:OfPwNIfFpTRrxHy48tlLmJaLOrI0Xam7@dpg-cgs7mh9jvhtj5p6qa190-a.ohio-postgres.render.com/production_o3f6",
     dialect: 'postgres',
     dialectOptions: {
       ssl: {

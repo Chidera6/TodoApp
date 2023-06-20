@@ -1,9 +1,8 @@
 
-
 module.exports = {
-    environment: process.env.NODE_ENV || 'production',
+    environment: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 5000,
-    url:process.env.DATABASE_URL,
+    DATABASE_URL:process.env.DATABASE_URL,
     db: {
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,

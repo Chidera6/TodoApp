@@ -4,6 +4,8 @@ const { User } = require('../../db/models');
 const router = express.Router();
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validations');
+const asyncHandler = require('express-async-handler');
+
 
 const validateLogin = [
   check('credential')
@@ -15,8 +17,9 @@ const validateLogin = [
     .withMessage('Please provide a password.'),
   handleValidationErrors
 ];
+
 router.post('/login',validateLogin,
-  async (req, res, next) => {
+  asyncHandler(async (req, res, next) => {
     const { credential, password } = req.body;
     const user = await User.login({ credential, password });
     if (!user) {
@@ -26,9 +29,12 @@ router.post('/login',validateLogin,
       err.errors = ['The provided credentials were invalid.'];
       return next(err);
     }
+
     await setTokenCookie(res, user);
-    return res.json({user});
-  }
+    return res.json({
+      user
+    });
+  })
 );
 
 router.delete('/logout',(_req, res) => {
@@ -54,12 +60,13 @@ const validateSignup = [
   handleValidationErrors
 ];
 
-router.post('/signup',validateSignup,async (req, res) => {
+router.post('/signup',validateSignup,
+  asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
     const user = await User.signup({ email, username, password });
     await setTokenCookie(res, user);
-    return res.json({user,});
-  }
+    return res.json({user, });
+  }),
 );
 
 

@@ -1,17 +1,34 @@
 const express = require('express');
+const morgan = require('morgan');
 const cors = require('cors');
+const csurf = require('csurf');
+const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const app = express();
 require('dotenv').config();
 const db = require('./db/models');
-const { port } = require('./config');
+const { port,environment } = require('./config');
+const routes = require('./routes');
+const isProduction = environment === 'production';
+const app = express();
+app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
-const routes = require('./routes');
-app.use(cors({
-  origin: '*'
-}));
+app.use(cors());
+
+app.use(
+  helmet.crossOriginResourcePolicy({ 
+  policy: "cross-origin" 
+  })
+);
+
+app.use(csurf({cookie: {secure: isProduction,
+      sameSite: isProduction && "Lax",
+      httpOnly: true
+    }
+  })
+);
 app.use(routes);
+
 db.sequelize.authenticate().then(() => {
   console.log('Database connection success! Sequelize is ready to use...');
   app.listen(port, () => console.log(`Listening on port ${port}...`));

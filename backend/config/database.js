@@ -1,6 +1,5 @@
 require('dotenv').config();
   
-/*
 module.exports = {
 development: {
   use_env_variable:'DATABASE_URL',
@@ -11,8 +10,9 @@ development: {
       rejectUnauthorized: false
     },
   seederStorage: 'sequelize'
-}
-*/
+  }
+},
+/*
 module.exports = {
   development: {
     username:"postgres",
@@ -22,7 +22,7 @@ module.exports = {
     dialect: 'postgres',
     seederStorage: 'sequelize'
   },
-
+*/
 production: {
   use_env_variable:'DATABASE_URL',
   dialect: 'postgres',

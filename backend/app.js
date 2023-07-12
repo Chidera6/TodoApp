@@ -14,7 +14,7 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({ 
-  origin: "https://moonlit-kelpie-9377c3.netlify.app/", 
+  origin: "https://moonlit-kelpie-9377c3.netlify.app", 
   credentials: true 
  }));
 

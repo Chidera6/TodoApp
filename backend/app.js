@@ -13,7 +13,10 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors("*"));
+app.use(cors({ 
+  origin: "https://moonlit-kelpie-9377c3.netlify.app/", 
+  credentials: true 
+ }));
 
 app.use(
   helmet.crossOriginResourcePolicy({ 

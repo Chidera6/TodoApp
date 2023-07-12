@@ -6,11 +6,11 @@ const { requireAuth } = require('../../utils/auth');
 
 
 router.post('/create', requireAuth, async (req, res) => {
-    const { title, description } = req.body;
+    const { title, description,completed } = req.body;
     const userId = req.user.id;
     try 
     {
-    const task = await Task.create({title,description,completed: false,userId,
+    const task = await Task.create({title,description,completed,userId,
         });
         res.json(task);
     } catch (error) {
@@ -73,7 +73,7 @@ router.post('/create', requireAuth, async (req, res) => {
   
       await task.save();
   
-      res.json({ message: 'Task updated successfully' });
+      res.json(task);
     } catch (error) {
       console.error('Error updating task:', error);
       res.status(500).json({ error: 'Server Error' });
@@ -107,16 +107,9 @@ router.post('/create', requireAuth, async (req, res) => {
   
 router.get('/', requireAuth, async (req, res) => {
   const userId = req.user.id;
-
   try {
-  
-    const tasks = await Task.findAll({
-      where: {
-        userId: userId,
-      },
-    });
-
-    res.json(tasks);
+  const tasks = await Task.findAll({where: { userId: userId, },});
+  res.json(tasks);
   } catch (error) {
     console.error('Error retrieving tasks:', error);
     res.status(500).json({ error: 'Server Error' });

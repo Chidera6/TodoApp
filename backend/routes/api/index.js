@@ -9,5 +9,8 @@ router.get('/hello/world', function(req, res) {
   res.send('Hello World!');
 });
 
-
+router.get('/csrf/restore', (req, res) => {
+  res.cookie('XSRF-TOKEN', req.csrfToken());
+  return res.json({});
+});
 module.exports = router;

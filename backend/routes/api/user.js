@@ -18,7 +18,7 @@ const validateLogin = [
   handleValidationErrors
 ];
 
-router.post('/login',validateLogin,
+router.post('/login',/*validateLogin*/
   asyncHandler(async (req, res, next) => {
     const { credential, password } = req.body;
     const user = await User.login({ credential, password });
@@ -42,7 +42,7 @@ router.delete('/logout',(_req, res) => {
     return res.json({ message: 'success' });
   }
 );
-
+/*
 const validateSignup = [
   check('email').exists({ checkFalsy: true }).isEmail().withMessage('Please provide a valid email.'),
   check('username')
@@ -59,14 +59,25 @@ const validateSignup = [
     .withMessage('Password must be 6 characters or more.'),
   handleValidationErrors
 ];
-
-router.post('/signup',validateSignup,
+*/
+router.post('/signup',
   asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
     const user = await User.signup({ email, username, password });
     await setTokenCookie(res, user);
     return res.json({user, });
   }),
+);
+
+
+router.get('/',restoreUser,(req, res) => {
+    const { user } = req;
+    if (user) {
+      return res.json({
+        user: user.toSafeObject()
+      });
+    } else return res.json({});
+  }
 );
 
 

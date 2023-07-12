@@ -13,20 +13,24 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(cors("*"));
 
 app.use(
   helmet.crossOriginResourcePolicy({ 
-  policy: "cross-origin" 
+    policy: "cross-origin" 
   })
 );
 
-app.use(csurf({cookie: {secure: isProduction,
-      sameSite: isProduction && "Lax",
-      httpOnly: true
+app.use(csurf({
+      cookie: 
+     {secure: isProduction,
+     sameSite: isProduction && "Lax",
+     httpOnly: true
     }
   })
 );
+
+
 app.use(routes);
 
 db.sequelize.authenticate().then(() => {
@@ -38,7 +42,7 @@ db.sequelize.authenticate().then(() => {
   console.error(err);
 });
 
-
+/*
 app.use((_req, _res, next) => {
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
@@ -66,5 +70,5 @@ app.use((err, _req, res, _next) => {
     errors: err.errors,
   });
 });
-
+*/
 module.exports = app;

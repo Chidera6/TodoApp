@@ -7,11 +7,11 @@ Backend
 POST '/api/users/login'
 An API that logs in an  Authenticated User.
 Request body:{
-    credential: "",
+    email: "",
     password: "".
     }
-Response: Logged in Users details.
-URL: https://todobackend-1ey3.onrender.com/api/users/login
+Response: Logged in Users details and a token.
+URL: https://todobackend-ew9a.onrender.com/api/users/login
 
 POST 'api/users/signup'
 An API where a User can register.
@@ -20,12 +20,9 @@ Request Arguments: {
     "email":"",
     "password":""
 }
-Response:Registered user's details.
-URL: https://todobackend-1ey3.onrender.com/api/users/signup
+Response:Registered user's details and a  token.
+URL: https://todobackend-ew9a.onrender.comm/api/users/signup
 
-DELETE 'api/users/logout'
-An API that deleted the current logged in User.
-URL:https://todobackend-1ey3.onrender.com/api/users/logout
 
 POST '/api/tasks/create'
 An API that creates a task by the logged in User. 
@@ -34,21 +31,21 @@ Request Arguments:{
     "description":"",
     "userId":""
 }
-Returns:
-URL: https://todobackend-1ey3.onrender.com/api/tasks/create
+Returns:Created task.
+URL: https://todobackend-ew9a.onrender.com/api/tasks/create
 
 GET '/api/task/taskId'
 Fetches a single task by id. 
-URL: https://todobackend-1ey3.onrender.com/api/tasks/1
+URL: https://todobackend-ew9a.onrender.com/api/tasks/1
 
 GET 'api/task/
 Fetches all by tasks by a user.
-URL: https://todobackend-1ey3.onrender.com/api/tasks/
+URL: https://todobackend-ew9a.onrender.com/api/tasks/
 
 DELETE '/api/task/taskId'
 Deletes a specified task using the id of the task.
 Response:Task deleted.
-URL: https://todobackend-1ey3.onrender.com/api/tasks/1
+URL: https://todobackend-ew9a.onrender.com/api/tasks/1
 
 PUT'/api/task/taskId'
 Updates a specified task using the id of the task.You can choose to include completed or not in your request body.
@@ -58,27 +55,12 @@ Request body:{
     "completed":
 }
 Response:Task updated succesfully.
-URL: https://todobackend-1ey3.onrender.com/api/tasks/1
+URL: https://todobackend-ew9a.onrender.com/api/tasks/1
 
-**To test the endpoints,Visit the test endpoint URL below.**
-URL: https://todobackend-1ey3.onrender.com/api/hello/world
-- This will output hello world to your screen.
-- Open the chrome dev tools and Visit Application/Cookies/URL underneath it.
-- Copy the XSRF-TOKEN token there, mine looks like this "pcTouwu4-d4mEltv_NrDcXhM1pZS6PNDfRII".
-- You will need it to make any requests to the server.
-- To make requests,open the console tab of the chrome dev tools.
-- A sample request will look like this below.
-  ```
-  fetch('/api/users/signup', {
-  method: 'POST',
-  headers: { "Content-Type": "application/json","XSRF-TOKEN": "19FR0V1R-tzHPToK9kRD3V2KJhwUJSoj5c2w"},
-  body: JSON.stringify({ username: "chidera", email: "dicta@gmail.com", password: 'password' })
-  })
-  .then((data) => {
-    console.log(data);
-  });
-  ```
-- Adjust the body and methods based on the particular endpoint you want to access ,remember to always check your current XSRF-TOKEN and use it as appropriate.
+**To test the endpoints on Postman,Visit the test endpoint URL below.**
+https://todobackend-ew9a.onrender.com/api/tasks/signup
+- Sign up and copy the returned token.
+- Use this token as Authorization header when creating a task/todo.
 
 **To use this API in development.**
 
@@ -109,14 +91,14 @@ URL: https://todobackend-1ey3.onrender.com/api/hello/world
     - JWT_EXPIRES_IN=604800
     - DATABASE_URL="put your value"
 
-6. Run `npx dotenv sequelize db:migrate` to create your database as well as run migrations,continue with step 10.
+6. Run `npx sequelize db:migrate` to create your database as well as run migrations,continue with step 10.
 
 8. In the backend/config/database file uncomment the first development database set up,and comment out the second one.
 
-9. Run `npx dotenv sequelize db:migrate` to create your database as well as run migrations.
+9. Run `npx sequelize db:migrate` to create your database as well as run migrations.
 
-10. Run the command `node app.js`
+10. Run the command `npx nodemon  app.js`
 
 11. Check if everything is working by running the test endpoint, 
-https://todobackend-1ey3.onrender.com/api/hello/world        
+https://todobackend-ew9a.onrender.com/        
 this should output `Hello World` on the screen.

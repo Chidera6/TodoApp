@@ -1,15 +1,13 @@
 const express = require('express')
 const router = express.Router();
 const { Task } = require('../../db/models');
-const { requireAuth } = require('../../utils/auth');
-  
+const { authenticate } = require('./authenticate');
 
 
-router.post('/create', requireAuth, async (req, res) => {
+router.post('/create', authenticate, async (req, res) => {
     const { title, description,completed } = req.body;
-    const userId = req.user.id;
-    try 
-    {
+    const userId = req.userId;
+    try {
     const task = await Task.create({title,description,completed,userId,
         });
         res.json(task);
@@ -19,12 +17,10 @@ router.post('/create', requireAuth, async (req, res) => {
     }
   });
   
-  router.delete('/:taskId', requireAuth, async (req, res) => {
+  router.delete('/:taskId',authenticate, async (req, res) => {
     const { taskId } = req.params;
-    const userId = req.user.id;
-  
+    const userId = req.userId;
     try {
-      
       const task = await Task.findOne({
         where: {
           id: taskId,
@@ -34,11 +30,8 @@ router.post('/create', requireAuth, async (req, res) => {
   
       if (!task) {
         return res.status(404).json({ error: 'Task not found' });
-      }
-  
-      
+      } 
       await task.destroy();
-  
       res.json({ message: 'Task deleted successfully' });
     } catch (error) {
       console.error('Error deleting task:', error);
@@ -48,56 +41,45 @@ router.post('/create', requireAuth, async (req, res) => {
 
 
   
-  router.put('/:taskId', requireAuth, async (req, res) => {
+  router.patch('/:taskId', authenticate,async (req, res) => {
     const { taskId } = req.params;
     const { title, description, completed } = req.body;
-    const userId = req.user.id;
-  
+    const userId = req.userId;
     try {
-  
       const task = await Task.findOne({
         where: {
           id: taskId,
           userId: userId,
         },
       });
-  
       if (!task) {
-        return res.status(404).json({ error: 'Task not found' });
+       return res.status(404).json({ error: 'Task not found' });
       }
-  
-    
-      task.title = title || task.title;
-      task.description = description || task.description;
-      task.completed = completed || task.completed;
-  
+      task.title = title;
+      task.description = description;
+      task.completed = completed;
       await task.save();
-  
       res.json(task);
     } catch (error) {
       console.error('Error updating task:', error);
-      res.status(500).json({ error: 'Server Error' });
+     res.status(500).json({ error: 'Server Error' });
     }
   });
   
  
-  router.get('/:taskId', requireAuth, async (req, res) => {
+  router.get('/:taskId', authenticate,async (req, res) => {
     const { taskId } = req.params;
-    const userId = req.user.id;
-  
+    const userId = req.userId;
     try {
-    
       const task = await Task.findOne({
         where: {
           id: taskId,
           userId: userId,
         },
       });
-  
       if (!task) {
         return res.status(404).json({ error: 'Task not found' });
       }
-  
       res.json(task);
     } catch (error) {
       console.error('Error retrieving task:', error);
@@ -105,8 +87,8 @@ router.post('/create', requireAuth, async (req, res) => {
     }
   });
   
-router.get('/', requireAuth, async (req, res) => {
-  const userId = req.user.id;
+router.get('/', authenticate,async (req, res) => {
+  const userId = req.userId;
   try {
   const tasks = await Task.findAll({where: { userId: userId, },});
   res.json(tasks);

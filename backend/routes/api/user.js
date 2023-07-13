@@ -1,85 +1,56 @@
-const express = require('express');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
-const { User } = require('../../db/models');
+var express = require('express');
 const router = express.Router();
-const { check } = require('express-validator');
-const { handleValidationErrors } = require('../../utils/validations');
-const asyncHandler = require('express-async-handler');
+const { User } = require('../../db/models');
+const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+const config = require('../../config');
+
+const generateToken = (user) => {
+  return jwt.sign(
+    { id: user.id, email: user.email, username: user.username },
+    config.jwtConfig.secret
+  );
+};
+
+router.post('/signup', async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const user = await User.create({ username, email, password: hashedPassword });
+    const userWithoutPassword = {...user.dataValues}
+    delete userWithoutPassword.password;
+    const token = generateToken(user); 
+    res.json({ user: userWithoutPassword, token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server Error' });
+  }
+});
 
 
-const validateLogin = [
-  check('credential')
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
-  check('password')
-    .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
-  handleValidationErrors
-];
-
-router.post('/login',/*validateLogin*/
-  asyncHandler(async (req, res, next) => {
-    const { credential, password } = req.body;
-    const user = await User.login({ credential, password });
+router.post('/login', async (req, res) => {
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
     if (!user) {
-      const err = new Error('Login failed');
-      err.status = 401;
-      err.title = 'Login failed';
-      err.errors = ['The provided credentials were invalid.'];
-      return next(err);
+      return res.status(404).json({ error: 'User not found' });
     }
-
-    await setTokenCookie(res, user);
-    return res.json({
-      user
-    });
-  })
-);
-
-router.delete('/logout',(_req, res) => {
-    res.clearCookie('token');
-    return res.json({ message: 'success' });
+    const passwordValid = await bcrypt.compare(
+      req.body.password.toString(),
+      user.password.toString()
+    );
+    if (!passwordValid) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+    const userWithoutPassword = { ...user.dataValues };
+    delete userWithoutPassword.password;
+    const token = generateToken(user);
+    res.status(200).json({ user: userWithoutPassword, token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server Error' });
   }
-);
-/*
-const validateSignup = [
-  check('email').exists({ checkFalsy: true }).isEmail().withMessage('Please provide a valid email.'),
-  check('username')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
-  check('username')
-    .not()
-    .isEmail()
-    .withMessage('Username cannot be an email.'),
-  check('password')
-    .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage('Password must be 6 characters or more.'),
-  handleValidationErrors
-];
-*/
-router.post('/signup',
-  asyncHandler(async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
-    await setTokenCookie(res, user);
-    return res.json({user, });
-  }),
-);
-
-
-router.get('/',restoreUser,(req, res) => {
-    const { user } = req;
-    if (user) {
-      return res.json({
-        user: user.toSafeObject()
-      });
-    } else return res.json({});
-  }
-);
-
+});
 
 
 module.exports = router;
